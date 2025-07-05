@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Matrix rain logic
     var matrix =
-      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}veeλnti";
+      "abcλdefghλijklmnoλpqrstλuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ12345λ6789@#$%^&λλ*()*&^%+-/~{[|`]}veeλnti";
     matrix = matrix.split("");
 
     var font_size = 15;
