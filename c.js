@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
 
-    setInterval(draw, 35);
+    setInterval(draw, 25);
   } else {
     console.error("Canvas element not found");
   }
