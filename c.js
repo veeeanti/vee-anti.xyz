@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
       "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}veeλnti";
     matrix = matrix.split("");
 
-    var font_size = 10;
+    var font_size = 15;
     var columns = c.width / font_size;
     var drops = [];
     for (var x = 0; x < columns; x++) drops[x] = 1;
