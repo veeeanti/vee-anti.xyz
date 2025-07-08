@@ -15,6 +15,8 @@ import type { Project } from "@/lib/types"
 
 // Admin authentication now uses a secure secret from the server, not a hardcoded password
 
+// Remove all references to ADMIN_PASSWORD_HASH and use a local state for password, but do not check it client-side.
+
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [password, setPassword] = useState("")
@@ -43,14 +45,10 @@ export default function AdminPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
-    if (password === ADMIN_PASSWORD_HASH) {
-      setIsAuthenticated(true)
-      sessionStorage.setItem("admin_authenticated", "true")
-      setLoginError("")
-    } else {
-      setLoginError("ACCESS_DENIED: Invalid credentials")
-      setPassword("")
-    }
+    // TODO: Implement secure login flow with server-side password check
+    // For now, always fail (or always succeed for demo)
+    setLoginError("ACCESS_DENIED: Invalid credentials")
+    setPassword("")
   }
 
   const handleLogout = () => {
