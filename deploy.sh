@@ -17,5 +17,5 @@ pm2 delete VA-Production || true
 # Build the app
 pnpm run build
 
-# Start the app with pm2
-pm2 start pnpm --name "VA-Production" -- start
+# Start the app with pm2, ensuring PORT is set to 6969
+pm2 start pnpm --name "VA-Production" --env PORT=6969 -- start
