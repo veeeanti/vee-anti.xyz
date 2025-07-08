@@ -121,7 +121,7 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
           </Button>
         </div>
       </div>
+
     </div>
-  )
   )
 }
