@@ -17,5 +17,7 @@ pm2 delete VA-Production || true
 # Build the app
 pnpm run build
 
-# Start the app with pm2, ensuring PORT is set to 6969
-PORT=6969 pm2 start pnpm --name "VA-Production" -- start
+# Start the app with pm2 using ecosystem config
+pm2 stop VA-Production || true
+pm2 delete VA-Production || true
+pm2 start ecosystem.config.js
