@@ -13,8 +13,7 @@ import { ArrowLeft, Plus, Edit, Trash2, Shield, Terminal, Lock, Eye, EyeOff } fr
 import { ProjectForm } from "@/components/project-form"
 import type { Project } from "@/lib/types"
 
-// Admin password hash - in production, this should be in environment variables
-const ADMIN_PASSWORD_HASH = "veeanti_admin_2024_secure_hash_xyz789"
+// Admin authentication now uses a secure secret from the server, not a hardcoded password
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)

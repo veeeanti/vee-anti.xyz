@@ -3,62 +3,45 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ArrowLeft, Calendar, Clock, Tag, FileText } from "lucide-react"
 
-// This would normally fetch from your database
-const getBlogPost = (id: string) => {
-  return {
-    id: Number.parseInt(id),
-    title: "Why I Can't Stop Tinkering with Android ROMs",
-    content: `
-# The Addiction is Real
 
-Okay, so here's the thing - I have a problem. It's 2 AM, I have work tomorrow, and I'm sitting here with my phone in download mode, about to flash yet another custom ROM. Why? Because I saw someone mention a new build on XDA and thought "hey, this one might finally be perfect."
+import { useEffect, useState } from "react"
 
-## How It Started
-
-It all began innocently enough. My phone was getting slow, the manufacturer stopped pushing updates, and I thought "how hard could it be to install a custom ROM?" 
-
-*Narrator: It was not easy.*
-
-## The Rabbit Hole
-
-Three hours later, I had:
-- Unlocked the bootloader (goodbye warranty)
-- Installed TWRP recovery
-- Made my first Nandroid backup (which I still have, like a digital security blanket)
-- Flashed my first custom ROM
-
-And it was... amazing. My phone felt new again. Faster, cleaner, with features I didn't even know I wanted.
-
-## The Problem
-
-But here's where things went sideways. One ROM led to another. "Oh, this one has better battery life." "This one has more customization options." "This one is based on the latest Android version."
-
-Before I knew it, I was flashing ROMs like other people change clothes. Weekly. Sometimes daily.
-
-## Current Status
-
-I've probably flashed over 50 different ROMs across various devices. My current daily driver is running some obscure ROM that three people have heard of, but it has this one feature that I absolutely can't live without.
-
-My friends think I'm crazy. My family has given up asking why my phone looks different every time they see it.
-
-But you know what? I regret nothing. Well, except for that one time I soft-bricked my phone right before an important call. That was... stressful.
-
-## The Lesson
-
-If you're thinking about getting into custom ROMs, my advice is simple: don't. Unless you want to join me in this beautiful, chaotic world of endless tinkering and 2 AM flashing sessions.
-
-Because once you start, you can't stop. Trust me, I've tried.
-
-*Currently running: Some random ROM build from yesterday that I'll probably replace tomorrow*
-    `,
-    tags: ["Android", "ROMs", "Rambling"],
-    publishedAt: "2024-01-15",
-    readTime: "5 min read",
-  }
+interface BlogPost {
+  id: number
+  title: string
+  content: string
+  excerpt: string
+  tags: string[]
+  published: boolean
+  created_at: string
+  updated_at: string
 }
-
 export default function BlogPostPage({ params }: { params: { id: string } }) {
-  const post = getBlogPost(params.id)
+  const [post, setPost] = useState<BlogPost | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const res = await fetch(`/api/blog/${params.id}`)
+        if (!res.ok) throw new Error("Not found")
+        const data = await res.json()
+        setPost(data)
+      } catch (e) {
+        setPost(null)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchPost()
+  }, [params.id])
+
+  if (loading) {
+    return <div className="text-orange-400 font-mono p-8">Loading...</div>
+  }
+  if (!post) {
+    return <div className="text-orange-400 font-mono p-8">Blog post not found.</div>
+  }
 
   return (
     <div className="min-h-screen hl-background">
@@ -103,17 +86,13 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4" />
                 PUBLISHED:{" "}
-                {new Date(post.publishedAt)
+                {new Date(post.created_at)
                   .toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "2-digit",
                     day: "2-digit",
                   })
                   .replace(/\//g, ".")}
-              </div>
-              <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4" />
-                DURATION: {post.readTime.toUpperCase()}
               </div>
             </div>
           </header>
@@ -143,5 +122,6 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
         </div>
       </div>
     </div>
+  )
   )
 }

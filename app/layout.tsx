@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     description: "Personal blog and project archive of veeAnti",
     creator: "@veeAnti",
   },
-    generator: 'v0.dev'
+    generator: 'Lou'
 }
 
 export default function RootLayout({
