@@ -1,20 +1,40 @@
+
 # vee-anti.xyz
 
-## Local Development
+## Getting Started
 
-To run the development server locally:
+### 1. Install dependencies
+```sh
+pnpm install
+```
 
-1. **Install dependencies** (if you haven't already):
-   ```sh
-   pnpm install
-   ```
+### 2. Set up your database
+- Make sure you have PostgreSQL running locally (or use a remote instance).
+- Copy `.env.example` to `.env` and fill in your database credentials:
+  ```env
+  DATABASE_URL="postgresql://USER:PASSWORD@localhost:5432/veeanti_db"
+  ADMIN_SECRET="your_admin_secret_here"
+  PORT=6969
+  ```
+- Push the Prisma schema to your database:
+  ```sh
+  npx prisma db push
+  ```
+- (Optional) Seed the database with sample data:
+  ```sh
+  psql <your_connection_string> -f scripts/seed-data.sql
+  ```
+- (Optional) Open Prisma Studio to view/edit data:
+  ```sh
+  npx prisma studio
+  ```
 
-2. **Start the development server:**
-   ```sh
-   pnpm dev
-   ```
+### 3. Start the development server
+```sh
+pnpm dev
+```
 
-3. Open your browser and go to [http://localhost:3000](http://localhost:3000)
+Open your browser and go to [http://localhost:3000](http://localhost:3000)
 
 ---
 
@@ -25,5 +45,6 @@ To run the development server locally:
 
 ---
 
+## Notes
+
 - Make sure you have [pnpm](https://pnpm.io/) installed globally (`npm install -g pnpm`).
-- You may need to set up your database and environment variables as required by the project.
