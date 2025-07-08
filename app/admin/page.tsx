@@ -43,12 +43,28 @@ export default function AdminPage() {
     }
   }, [isAuthenticated, activeTab])
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault()
-    // TODO: Implement secure login flow with server-side password check
-    // For now, always fail (or always succeed for demo)
-    setLoginError("ACCESS_DENIED: Invalid credentials")
-    setPassword("")
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginError("");
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
+      if (res.ok) {
+        setIsAuthenticated(true);
+        sessionStorage.setItem("admin_authenticated", "true");
+        setPassword("");
+      } else {
+        const data = await res.json();
+        setLoginError(data.error || "ACCESS_DENIED: Invalid credentials");
+        setPassword("");
+      }
+    } catch (err) {
+      setLoginError("Server error. Please try again later.");
+      setPassword("");
+    }
   }
 
   const handleLogout = () => {
